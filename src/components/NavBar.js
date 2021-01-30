@@ -11,14 +11,20 @@ class NavBar extends Component {
         this.state = {
 
             items: [
-                { name: "Listar Tarefas", href: "/" },
-                { name: "Nova Tarefa", href: "/form" },
+                { name: "Listar Tarefas", href: "/", active: false },
+                { name: "Nova Tarefa", href: "/form", active: false },
             ]
         }
 
     }
-    onClickHandler(item) {
-        alert(item.name);
+    onClickHandler(itemClicked) {
+        const items = [...this.state.items];
+
+        items.forEach(item => {
+            if(item.name === itemClicked.name) {}
+
+
+        })
 
     }
 
@@ -35,7 +41,9 @@ class NavBar extends Component {
                         <div className="navbar-nav mr-auto">
 
                             {this.state.items.map(
+
                                 i => <NavBarItem
+                                    key={i.name}
                                     item={i}
                                     onClick={this.onClickHandler} />)}
 
@@ -43,7 +51,7 @@ class NavBar extends Component {
 
                     </div>
                 </nav>
-               
+
             </div>
         );
     }
