@@ -16,15 +16,25 @@ class NavBar extends Component {
             ]
         }
 
+        this.onClickHandler = this.onClickHandler.bind(this);
+
     }
     onClickHandler(itemClicked) {
         const items = [...this.state.items];
 
         items.forEach(item => {
-            if(item.name === itemClicked.name) {}
+            if(item.name === itemClicked.name) {
+                item.active = true;
+            }else {
+                item.active = false;
+            }
+
+            this.setState({items});
 
 
         })
+
+
 
     }
 
