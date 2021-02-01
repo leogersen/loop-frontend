@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 import TaskService from '../api/TaskService';
+import "react-toastify/dist/ReactToastify.css";
 
 class TaskListTable extends Component {
 
@@ -11,9 +13,9 @@ class TaskListTable extends Component {
             tasks: []
         }
 
-       this.onDeleteHandler =  this.onDeleteHandler.bind(this);
+        this.onDeleteHandler = this.onDeleteHandler.bind(this);
+        this.onStatusChangeHandler = this.onStatusChangeHandler.bind(this);
     }
-
 
 
     componentDidMount() {
@@ -26,8 +28,17 @@ class TaskListTable extends Component {
     }
 
     onDeleteHandler(id) {
-        TaskService.delete(id);
+        if (window.confirm("Deseja mesmo excluir essa tarefa?"))
+            TaskService.delete(id);
         this.listTasks();
+        toast.success("Tarefa excluída!", { position: toast.POSITION.BOTTOM_LEFT });
+    }
+
+    onStatusChangeHandler(task) {
+            task.done = !task.done;
+            TaskService.save(task);
+            this.listTasks();
+
     }
 
     render() {
@@ -35,12 +46,19 @@ class TaskListTable extends Component {
             <div>
                 <table className="table table-striped">
                     <TableHeader />
-                    <TableBody 
-                    tasks={this.state.tasks}
-                    onDelete={this.onDeleteHandler}
-                     />
+                   {this.state.tasks.length > 0 ?<TableBody
+                        tasks={this.state.tasks}
+                        onDelete={this.onDeleteHandler} 
+                        onStatusChange={this.onStatusChangeHandler}
+                        />
+                    :
+                    <EmptyTableBody />
+                    
+                    }
+
 
                 </table>
+                <ToastContainer autoClose={1500} />
             </div>
         );
     }
@@ -64,16 +82,20 @@ const TableBody = (props) => {
         <tbody>
             {props.tasks.map(task =>
                 <tr key={task.id}>
-                    <td><input type="checkbox" checked={task.done}/> </td>
+                    <td><input 
+                        type="checkbox" 
+                        checked={task.done} 
+                        onChange={() => props.onStatusChange(task)}
+                        /> </td>
                     <td>{task.description}</td>
                     <td>{task.whenTodo}</td>
                     <td>
                         <input className="btn btn-primary" type="button" value="Editar"></input>
-                        &nbsp;<input 
-                        className="btn btn-danger" 
-                        type="button" 
-                        value="Excluir"
-                        onClick= {() => props.onDelete(task.id)}
+                        &nbsp;<input
+                            className="btn btn-danger"
+                            type="button"
+                            value="Excluir"
+                            onClick={() => props.onDelete(task.id)}
                         ></input>
                     </td>
                 </tr>
@@ -82,6 +104,17 @@ const TableBody = (props) => {
 
 
     )
+}
+
+const EmptyTableBody = (props) => {
+    return (
+
+    <tbody>
+        <tr>
+           <td colSpan="4">Sem tarefas cadastradas no momento!</td> 
+        </tr>
+
+    </tbody>)
 }
 
 export default TaskListTable;
