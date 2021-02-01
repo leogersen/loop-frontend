@@ -69,7 +69,12 @@ const TableBody = (props) => {
                     <td>{task.whenTodo}</td>
                     <td>
                         <input className="btn btn-primary" type="button" value="Editar"></input>
-                        &nbsp;<input className="btn btn-danger" type="button" value="Excluir"></input>
+                        &nbsp;<input 
+                        className="btn btn-danger" 
+                        type="button" 
+                        value="Excluir"
+                        onClick= {() => props.onDelete(task.id)}
+                        ></input>
                     </td>
                 </tr>
             )}
