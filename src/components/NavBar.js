@@ -23,13 +23,13 @@ class NavBar extends Component {
         const items = [...this.state.items];
 
         items.forEach(item => {
-            if(item.name === itemClicked.name) {
+            if (item.name === itemClicked.name) {
                 item.active = true;
-            }else {
+            } else {
                 item.active = false;
             }
 
-            this.setState({items});
+            this.setState({ items });
 
 
         })
@@ -43,22 +43,24 @@ class NavBar extends Component {
             <div>
 
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <span className="navbar-brand mb-0 h1">{APP_NAME}</span>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarText">
-                        <div className="navbar-nav mr-auto">
+                    <div className="container-fluid">
+                        <a className="navbar-brand" href="/">{APP_NAME}</a>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                            <div className="navbar-nav">
 
-                            {this.state.items.map(
+                                {this.state.items.map(
 
-                                i => <NavBarItem
-                                    key={i.name}
-                                    item={i}
-                                    onClick={this.onClickHandler} />)}
+                                    i => <NavBarItem
+                                        key={i.name}
+                                        item={i}
+                                        onClick={this.onClickHandler} />)}
+
+                            </div>
 
                         </div>
-
                     </div>
                 </nav>
 
