@@ -1,9 +1,9 @@
 class TaskService {
     constructor() {
         this.tasks = [
-            { id: 1, description: "Tarefa 1", whenToDo: "01/01/2030", done: false },
-            { id: 2, description: "Tarefa 2", whenToDo: "02/01/2030", done: false },
-            { id: 3, description: "Tarefa 3", whenToDo: "03/01/2030", done: false }
+            { id: 1, description: "Tarefa 1", whenToDo: "2030-01-01", done: false },
+            { id: 2, description: "Tarefa 2", whenToDo: "2030-01-03", done: false },
+            { id: 3, description: "Tarefa 3", whenToDo: "2030-01-02", done: false }
         ]
 
     }
@@ -23,7 +23,7 @@ class TaskService {
 
     save(task) {
         if (task.id !== 0) {
-            this.tasks.map(t => task.id !== t.id ? t : task);
+            this.tasks = this.tasks.map(t => task.id !== t.id ? t : task);
         } else {
            const taskId =  Math.max(...this.tasks.map(t => t.id)) + 1;
            task.id = taskId;

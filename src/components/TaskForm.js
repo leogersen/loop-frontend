@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import TaskService from '../api/TaskService';
 
 class TaskForm extends Component {
@@ -11,7 +12,10 @@ class TaskForm extends Component {
                 id: 0,
                 description: "",
                 whenToDo: ""
-            }
+            },
+            redirect: false,
+            buttomName: "Cadastrar"
+
         }
                 
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -22,13 +26,14 @@ class TaskForm extends Component {
         const editId = this.props.match.params.id;
         if (editId) {
            const task =TaskService.load(~~editId);
-        this.setState({ task: task });
+        this.setState({ task: task, buttomName: "Alterar" });
         }
     }
 
     onSubmitHandler(event) {
         event.preventDefault();
         TaskService.save(this.state.task);
+        this.setState({ redirect: true });
 
     }
 
@@ -40,6 +45,11 @@ class TaskForm extends Component {
     }
 
     render() {
+
+        if (this.state.redirect) {
+            return <Redirect to="/" />
+        }
+
         return (
             <div>
                 <h1>Cadastro da Tarefa</h1>
@@ -64,9 +74,14 @@ class TaskForm extends Component {
                                 onChange={this.onInputChangeHandler} />
                     </div>
                     <br/>
-                    <button type="submit" className="btn btn-primary">Cadastrar</button>
+                    <button type="submit" className="btn btn-primary">{this.state.buttomName}</button>
                     &nbsp;&nbsp;
-                    <button type="button" className="btn btn-primary">Cancelar</button>
+                    <button 
+                    type="button" 
+                    className="btn btn-primary"
+                    onClick={() => this.setState({ redirect: true })}>
+                    Cancelar
+                    </button>
                 </form>
             </div>
         );
