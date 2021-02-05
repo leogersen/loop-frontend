@@ -12,6 +12,11 @@ class TaskService {
         return this.tasks;
 
     }
+
+    load(id) {
+        return this.tasks.filter(t => t.id ===id)[0];
+    }
+
     delete(id) {
         this.tasks = this.tasks.filter(task => task.id !== id);
     }
