@@ -3,6 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import TaskService from '../api/TaskService';
 import "react-toastify/dist/ReactToastify.css";
 import { Redirect } from 'react-router-dom';
+import Alert from './Alert';
 
 class TaskListTable extends Component {
 
@@ -56,6 +57,8 @@ class TaskListTable extends Component {
 
         return (
             <div>
+
+                <Alert message="Este é um alerta de testes"/>
                 <table className="table table-striped">
                     <TableHeader />
                    {this.state.tasks.length > 0 ?<TableBody
