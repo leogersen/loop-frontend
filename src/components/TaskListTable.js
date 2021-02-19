@@ -33,7 +33,7 @@ class TaskListTable extends Component {
     }
 
     listTasks() {
-        if (!AuthService.isAuthenticated) {
+        if (!AuthService.isAuthenticated()) {
             return;
         }
 
@@ -87,7 +87,7 @@ class TaskListTable extends Component {
                 {this.state.loading ? <Spinner/> :
                 <table className="table table-striped">
                     <TableHeader />
-                   {this.state.tasks.length > 0 ?<TableBody
+                   {this.state.tasks.length > 0 ? <TableBody
                         tasks={this.state.tasks}
                         onDelete={this.onDeleteHandler} 
                         onEdit={this.onEditHandler}

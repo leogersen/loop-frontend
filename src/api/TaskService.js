@@ -13,7 +13,8 @@ class TaskService {
     }
 
     list(onFetch, onError) {
-        axios.get(`${API_ENDPOINT}/tasks?sort=whenToDo,asc`, this.buildAuthHeader())
+        axios
+        .get(`${API_ENDPOINT}/tasks?sort=whenToDo,asc`, this.buildAuthHeader())
         .then(response => onFetch(response.data.content))
         .catch(e => onError(e));
 
@@ -41,7 +42,7 @@ class TaskService {
     buildAuthHeader() {
         return {
             headers: {
-                'Authorization': `Bearer ${AuthService.getJWTToken()}`
+                "authorization": `Bearer ${AuthService.getJWTToken()}`
             }
         }
     }
