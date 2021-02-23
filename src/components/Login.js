@@ -30,7 +30,8 @@ export default class Login extends Component {
 
     handleLoginReponse(success) {
         if (success) {
-            this.setState({ loggedIn: true });    
+            this.setState({ loggedIn: true });
+            this.props.onLoginSuccess();    
         }else {
             this.setState({alert: "O login não pode ser realizado"});
         }

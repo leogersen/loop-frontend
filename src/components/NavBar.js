@@ -57,8 +57,9 @@ class NavBar extends Component {
                                         key={i.name}
                                         item={i}
                                         onClick={this.onClickHandler} />)}
-
                             </div>
+
+                            
 
                         </div>
                     </div>
