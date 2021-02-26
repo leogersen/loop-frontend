@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AuthService from '../api/AuthService';
 import { APP_NAME } from '../constants';
 import NavBarItem from './NavBarItem';
 
@@ -17,6 +18,7 @@ class NavBar extends Component {
         }
 
         this.onClickHandler = this.onClickHandler.bind(this);
+        this.onLogoutHandler = this.onLogoutHandler.bind(this);
 
     }
     onClickHandler(itemClicked) {
@@ -32,40 +34,50 @@ class NavBar extends Component {
             this.setState({ items });
 
 
-        })
+        })  }
+
+
+        onLogoutHandler() {
+            AuthService.logout();
+            this.props.onLinkClick();
+        }
 
 
 
-    }
+  
 
     render() {
         return (
-            <div>
-
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <div className="container-fluid">
+                 <div>
+                        <nav className="navbar navbar-expand-lg navbar-light bg-light">
                         <a className="navbar-brand" href="/">{APP_NAME}</a>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
-                        <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                            <div className="navbar-nav">
 
-                                {this.state.items.map(
+                        <div className="collapse navbar-collapse" id="navbarText">
+                            <ul className="navbar-nav mr-auto">
+                            {this.state.items.map(
 
-                                    i => <NavBarItem
-                                        key={i.name}
-                                        item={i}
-                                        onClick={this.onClickHandler} />)}
-                            </div>
-
-                            
-
+                            i => <NavBarItem
+                                key={i.name}
+                                item={i}
+                                onClick={this.onClickHandler} />)}
+                            {AuthService.isAuthenticated() 
+                            ? <NavBarItem item={{name: "Logout", active: false, href: "#"}}
+                                onClick={this.onLogoutHandler} />   
+                            : ""}
+                            </ul>
+            
                         </div>
-                    </div>
-                </nav>
 
-            </div>
+                        <span className="navbar-text">
+                            {AuthService.isAuthenticated() ? 
+                            `Olá, ${AuthService.getJWTTokenData().displayName}!` : "" }
+                            </span>
+                            
+                    </nav>  
+                </div>
         );
     }
 }

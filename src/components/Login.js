@@ -30,13 +30,12 @@ export default class Login extends Component {
 
     handleLoginReponse(success) {
         if (success) {
-            this.setState({ loggedIn: true });
+            this.setState({ loggedIn: true, processing: false });
             this.props.onLoginSuccess();    
         }else {
-            this.setState({alert: "O login não pode ser realizado"});
+            this.setState({alert: "O login não pode ser realizado", processing: false });
         }
 
-        this.setState({processing: false});
     }
 
     handleInputChanged(event){
@@ -48,15 +47,10 @@ export default class Login extends Component {
 
     render() {
 
-        if (AuthService.isAuthenticated()) {
+        if (AuthService.isAuthenticated() || this.state.loggedIn) {
             return <Redirect to="/" />;
             
         }
-
-        if(this.state.loggedIn) {
-            return <Redirect to= "/" />
-        }
-
 
         return (
             <div>

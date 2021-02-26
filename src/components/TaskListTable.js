@@ -68,8 +68,15 @@ class TaskListTable extends Component {
 
     onStatusChangeHandler(task) {
             task.done = !task.done;
-            TaskService.save(task);
-            this.listTasks();
+
+            TaskService.save(task,
+                
+                () => {
+                    const tasks = this.state.tasks.map(t => t.id !== task.id ? t : task);
+                    this.setState({ tasks: tasks});
+
+                },
+                error => this.setErrorState(error));
 
     }
 

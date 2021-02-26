@@ -30,6 +30,21 @@ class AuthService {
         return this.getJWTToken() != null;
     }
 
+    logout() {
+        sessionStorage.removeItem(JWT_TOKEN_NAME);
+    }
+
+    getJWTTokenData() {
+        const jwtToken = this.getJWTToken();
+        if (jwtToken == null) {
+            return null;
+        }
+
+        const jwtTokenData = atob(jwtToken.split(".")[1])
+        return JSON.parse(jwtTokenData); 
+
+    }
+
 }
 
 export default new AuthService();
